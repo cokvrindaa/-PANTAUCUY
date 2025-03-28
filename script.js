@@ -8,7 +8,7 @@ import {
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// Konfigurasi Firebase (ISI DENGAN DATA KALIAN)
+// Konfigurasi Firebase
 const firebaseConfig = {
   apiKey: "",
   authDomain: "",
@@ -29,6 +29,8 @@ const dhtRef = ref(db, "dht");
 const kelembapanRef = ref(db, "kelembapan");
 const cahayaRef = ref(db, "cahaya");
 const apiRef = ref(db, "api");
+const slidersatuRef = ref(db, "slidersatu");
+const sliderduaRef = ref(db, "sliderdua");
 // Ambil elemen yang sesuai dengan HTML
 const button1 = document.getElementById("toggleBtn");
 const led1gam = document.getElementById("ledgamsatu");
@@ -39,6 +41,15 @@ const kelembapan = document.getElementById("kelembapan");
 const cahaya = document.getElementById("cahaya");
 const api = document.getElementById("api");
 const statuscahaya = document.getElementById("statuscahaya");
+
+let slidersatu = document.getElementById("slidersatu");
+let tampilslider = document.getElementById("tampilslider");
+tampilslider.innerHTML = slidersatu.value;
+
+let sliderdua = document.getElementById("sliderdua");
+let tampilsliderdua = document.getElementById("tampilsliderdua");
+tampilsliderdua.innerHTML = sliderdua.value;
+
 // Ambil data dari Firebase saat halaman dimuat
 get(dbRefLed1)
   .then((snapshot) => {
@@ -133,7 +144,7 @@ get(dbRefLed2)
 onValue(dhtRef, (snapshot) => {
   let value = snapshot.val();
   console.log(`Suhu: ${value}`);
-  suhu.innerText = `${value} %`;
+  suhu.innerText = `${value} °C`;
 });
 onValue(kelembapanRef, (snapshot) => {
   let value = snapshot.val();
@@ -158,4 +169,57 @@ onValue(apiRef, (snapshot) => {
   let value = snapshot.val();
   console.log(`api: ${value}`);
   api.innerText = `${value} %`;
+});
+// Ambil data dari Firebase untuk slider satu saat halaman dimuat
+get(slidersatuRef).then((snapshot) => {
+  let value = snapshot.exists() ? snapshot.val() : 50;
+  slidersatu.value = value;
+  tampilslider.innerHTML = value;
+
+  // Update nilai slider di Firebase setiap kali slider digeser
+  slidersatu.oninput = function () {
+    tampilslider.innerHTML = this.value;
+
+    // Simpan nilai slider ke Firebase
+    set(slidersatuRef, parseInt(this.value, 10))
+      .then(() => {
+        console.log("Data slider berhasil diperbarui:", this.value);
+      })
+      .catch((error) => console.error("Gagal mengupdate data slider:", error));
+  };
+});
+
+// Sinkronisasi real-time slider satu dengan Firebase
+onValue(slidersatuRef, (snapshot) => {
+  let value = snapshot.val();
+  slidersatu.value = value;
+  tampilslider.innerHTML = value + " R";
+  console.log("Slider diperbarui secara real-time:", value);
+});
+
+// Ambil data dari Firebase untuk slider dua saat halaman dimuat
+get(sliderduaRef).then((snapshot) => {
+  let value = snapshot.exists() ? snapshot.val() : 50;
+  sliderdua.value = value;
+  tampilsliderdua.innerHTML = value;
+
+  // Update nilai slider di Firebase setiap kali slider digeser
+  sliderdua.oninput = function () {
+    tampilsliderdua.innerHTML = this.value;
+
+    // Simpan nilai slider ke Firebase
+    set(sliderduaRef, parseInt(this.value, 10))
+      .then(() => {
+        console.log("Data slider berhasil diperbarui:", this.value);
+      })
+      .catch((error) => console.error("Gagal mengupdate data slider:", error));
+  };
+});
+
+// Sinkronisasi real-time slider satu dengan Firebase
+onValue(sliderduaRef, (snapshot) => {
+  let value = snapshot.val();
+  sliderdua.value = value;
+  tampilsliderdua.innerHTML = value + " R";
+  console.log("Slider diperbarui secara real-time:", value);
 });

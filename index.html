@@ -15,7 +15,7 @@
   <body>
     <div class="main-kontainer max-w-lg m-auto p-5">
       <div class="flex flex-col my-10">
-        <i class="fa-solid fa-seedling text-green-500 text-8xl m-auto mb-5"></i>
+        <i class="fa-solid fa-seedling text-green-500 text-9xl m-auto mb-5"></i>
         <div class="px-10">
           <p class="text-center">
             hiii 👋, selamat datang di <b>#PANTAU CUY</b> semoga harimu baik
@@ -23,20 +23,26 @@
           </p>
         </div>
       </div>
-      <div class="grid grid-cols-2 grid-rows-1 gap-5 mb-4">
+      <div class="grid grid-cols-2 grid-rows-1 gap-4 mb-4">
         <div
-          class="h-14 flex items-center justify-between shadow-md rounded-md px-3"
+          class="h-14 flex items-center justify-between shadow-md rounded-md px-3 inset-shadow-sm"
         >
-          <p>Cahaya</p>
+          <div class="flex flex-row items-center gap-2">
+            <i class="fa-solid fa-sun"></i>
+            <p>Cahaya</p>
+          </div>
           <div>
             <p id="statuscahaya">Sedang</p>
             <p class="text-sm text-right" id="cahaya">-- %</p>
           </div>
         </div>
         <div
-          class="h-14 flex items-center justify-between shadow-md rounded-md px-3"
+          class="h-14 flex items-center justify-between shadow-md rounded-md px-3 inset-shadow-sm"
         >
-          <p>Api</p>
+          <div class="flex flex-row items-center gap-2">
+            <i class="fa-solid fa-fire"></i>
+            <p>Api</p>
+          </div>
           <div>
             <p>Tidak Ada</p>
             <p class="text-sm text-right" id="api">-- %</p>
@@ -44,18 +50,29 @@
         </div>
       </div>
 
-      <div class="py-3 rounded-md px-3 shadow-md mb-4 flex justify-between">
-        <p>Suhu</p>
+      <div
+        class="py-3 rounded-md px-3 shadow-md mb-4 flex justify-between inset-shadow-sm"
+      >
+        <div class="flex flex-row items-center gap-2">
+          <i class="fa-solid fa-temperature-three-quarters text-lg"></i>
+          <p>Suhu</p>
+        </div>
+
         <p id="suhu">-- °C</p>
       </div>
-      <div class="py-3 rounded-md px-3 shadow-md mb-4 flex justify-between">
-        <p>Kelembapan</p>
+      <div
+        class="py-3 rounded-md px-3 shadow-md mb-4 flex justify-between inset-shadow-sm"
+      >
+        <div class="flex flex-row items-center gap-2">
+          <i class="fa-solid fa-droplet"></i>
+          <p>Kelembapan</p>
+        </div>
         <p id="kelembapan">-- %</p>
       </div>
-      <p class="font-bold mt-10">LED AREA</p>
+      <p class="font-bold mt-10 mb-2">LED AREA</p>
       <div class="led-kontrol-kontainer grid grid-cols-2 gap-5">
         <div
-          class="kotak shadow-md rounded-xl flex flex-col items-center justify-center p-5"
+          class="kotak shadow-md rounded-xl flex flex-col items-center justify-center p-5 inset-shadow-sm"
         >
           <img
             src="./image/led-off.png"
@@ -73,7 +90,7 @@
         </div>
 
         <div
-          class="kotak shadow-md rounded-xl flex flex-col items-center justify-center"
+          class="kotak shadow-md rounded-xl flex flex-col items-center justify-center inset-shadow-sm"
         >
           <img
             src="./image/led-off.png"
@@ -90,7 +107,49 @@
           </button>
         </div>
       </div>
+      <p class="mt-10 "><b>LED BRIGHTNESS </b></p>
+      <div class="inset-shadow-sm px-3 py-3 rounded-md shadow-md my-3">
+        <label
+          for="minmax-range"
+          class="block mb-1 text-gray-900 dark:text-white font-bold"
+          >LED 01</label
+        >
+        <div class="flex justify-between items-center">
+          <i class="fa-solid fa-circle"></i>
+          <i class="fa-solid fa-sun"></i>
+        </div>
+        <input
+          id="slidersatu"
+          type="range"
+          min="0"
+          max="255"
+          value=""
+          class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+        <p id="tampilslider"></p>
+      </div>
+      <div class="inset-shadow-sm px-3 py-3 rounded-md shadow-md my-2">
+        <label
+          for="minmax-range"
+          class="block mb-1 text-gray-900 dark:text-white font-bold"
+          >LED 02</label
+        >
+        <div class="flex justify-between items-center">
+          <i class="fa-solid fa-circle"></i>
+          <i class="fa-solid fa-sun"></i>
+        </div>
+        <input
+          id="sliderdua"
+          type="range"
+          min="0"
+          max="255"
+          value=""
+          class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+        <p id="tampilsliderdua"></p>
+      </div>
     </div>
+
     <script
       src="https://kit.fontawesome.com/27ec8e2fe3.js"
       crossorigin="anonymous"

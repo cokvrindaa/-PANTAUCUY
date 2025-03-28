@@ -7,14 +7,16 @@
 #include <Firebase_ESP_Client.h>
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
+#include "DHT.h"
 
 // Insert your network credentials
 #define WIFI_SSID "Samsung Galaxy A55"
 #define WIFI_PASSWORD "123456789"
-// ISI DENGAN DATA KALIAN
+
 #define API_KEY ""
 #define DATABASE_URL ""
-
+#define DHTPIN D5
+#define DHTTYPE DHT11
 const int lampu = D6;
 const int lampu2 = D7;
 const int lampu3 = D8;
@@ -26,6 +28,7 @@ FirebaseConfig config;
 bool signupOK = false;
 
 
+DHT dht(DHTPIN, DHTTYPE);
 
 String sValue;
 void setup() {
@@ -57,10 +60,15 @@ void setup() {
   config.token_status_callback = tokenStatusCallback;
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
+  dht.begin();
 }
 
 
 void loop() {
+
+
+  float hum = dht.readHumidity();
+  float temp = dht.readTemperature();
   String s1, s2;
   int bacaldr = analogRead(ldr);
   if (Firebase.ready() && signupOK) {
@@ -75,9 +83,13 @@ void loop() {
     if (Firebase.RTDB.getInt(&fbdo, "toggleState")) {
       int b = fbdo.intData();
       Serial.println(b);
-      analogWrite(lampu2, b);
       if (b == 1) {
-        digitalWrite(lampu2, HIGH);
+        if (Firebase.RTDB.getInt(&fbdo, "sliderdua")) {
+          int b = fbdo.intData();
+          Serial.println(b);
+          analogWrite(lampu2, b);
+        }
+
       } else if (b == 0) {
         digitalWrite(lampu2, LOW);
       }
@@ -86,20 +98,29 @@ void loop() {
     if (Firebase.RTDB.getInt(&fbdo, "toggleState2")) {
       int c = fbdo.intData();
       Serial.println(c);
-      analogWrite(lampu, c);
       if (c == 1) {
-        digitalWrite(lampu, HIGH);
+        if (Firebase.RTDB.getInt(&fbdo, "slidersatu")) {
+          int a = fbdo.intData();
+          Serial.println(a);
+          analogWrite(lampu, a);
+        }
+
       } else if (c == 0) {
         digitalWrite(lampu, LOW);
       }
-
     }
 
 
+    if (Firebase.RTDB.setFloat(&fbdo, "kelembapan", hum)) {
+      Serial.print("hum: ");
+      Serial.println(hum);
+    }
 
 
-
-
+    if (Firebase.RTDB.setFloat(&fbdo, "dht", temp)) {
+      Serial.print("suhu: ");
+      Serial.println(temp);
+    }
 
 
     else {
