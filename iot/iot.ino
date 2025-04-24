@@ -13,14 +13,21 @@
 #define WIFI_SSID "Samsung Galaxy A55"
 #define WIFI_PASSWORD "123456789"
 
-#define API_KEY ""
-#define DATABASE_URL ""
+#define API_KEY "AIzaSyA6mnO53Cl1rOGQJIIh-sUUxqM8ScDHPYo"
+#define DATABASE_URL "https://myfirebase-ed97c-default-rtdb.firebaseio.com//"
 #define DHTPIN D5
 #define DHTTYPE DHT11
+#define pompa D4
 const int lampu = D6;
 const int lampu2 = D7;
 const int lampu3 = D8;
 int ldr = A0;
+
+// JIKA MENGGUNAKAN ESP 32
+
+
+
+
 FirebaseData fbdo;
 FirebaseAuth auth;
 
@@ -32,6 +39,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 String sValue;
 void setup() {
+  pinMode(pompa, OUTPUT);
   pinMode(lampu, OUTPUT);
   pinMode(lampu2, OUTPUT);
   pinMode(ldr, INPUT);
@@ -107,6 +115,18 @@ void loop() {
 
       } else if (c == 0) {
         digitalWrite(lampu, LOW);
+      }
+    }
+
+
+    if (Firebase.RTDB.getInt(&fbdo, "pompasatu")) {
+      int d = fbdo.intData();
+      Serial.println(d);
+      if (d == 0) {
+        digitalWrite(pompa, HIGH);
+
+      } else if (d == 1) {
+        digitalWrite(pompa, LOW);
       }
     }
 

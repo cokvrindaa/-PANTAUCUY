@@ -106,8 +106,32 @@
             LOADING..
           </button>
         </div>
+        
       </div>
-      <p class="mt-10 "><b>LED BRIGHTNESS </b></p>
+      <div
+  id="indukled"
+  class="h-20 flex flex-col shadow-md rounded-md p-5 inset-shadow-sm mt-4 overflow-hidden transition-all duration-300 ease-in-out "
+>
+  <div class="items-center justify-between flex">
+    <p><b> Otomatis Hidup LED?</b></p>
+    <div>
+      <input type="checkbox" class="w-4 h-4">
+    </div>
+  </div>
+  <button
+    class="self-start hover:text-blue-600 hover:font-semibold"
+    id="selengkapnyaledbtn"
+  >
+    Selengkapnya..
+  </button>
+  <div id="selengkapnyaled" class="hidden mt-2">
+    <p class="text-justify">
+      LED akan otomatis menyala jika sensor cahaya menditeksi dengan keadaan yang gelap.
+    </p>
+  </div>
+</div>
+
+      <p class="mt-10"><b>LED BRIGHTNESS </b></p>
       <div class="inset-shadow-sm px-3 py-3 rounded-md shadow-md my-3">
         <label
           for="minmax-range"
@@ -148,7 +172,68 @@
         />
         <p id="tampilsliderdua"></p>
       </div>
+      <p class="font-bold mt-10 mb-2">POMP AREA</p>
+
+      <div class="grid grid-cols-2 gap-5">
+        <div
+          class="kotak shadow-md rounded-xl flex flex-col items-center justify-center p-5 inset-shadow-sm"
+        >
+          <img
+            src="./image/water-pump-off.png"
+            alt=""
+            class="led-gambar max-w-20 mb-2"
+            id="pompgam1"
+          />
+          <p class="font-bold">POMPA 01</p>
+          <button
+            class="led-button bg-blue-800 shadow-md rounded-md py-1.5 px-2 mt-1 text-white mb-2"
+            id="togglePomp1"
+          >
+            LOADING..
+          </button>
+        </div>
+        <div
+          class="kotak shadow-md rounded-xl flex flex-col items-center justify-center p-5 inset-shadow-sm"
+        >
+          <img
+            src="./image/water-pump-off.png"
+            alt=""
+            class="led-gambar max-w-20 mb-2"
+            id="pompgam2"
+          />
+          <p class="font-bold">POMPA 02</p>
+          <button
+            class="led-button bg-blue-800 shadow-md rounded-md py-1.5 px-2 mt-1 text-white mb-2"
+            id="togglePomp2"
+          >
+            LOADING..
+          </button>
+        </div>
+      </div>
+      <div
+      id="indukpompa"
+      class="h-20 flex flex-col shadow-md rounded-md p-5 inset-shadow-sm mt-4 overflow-hidden transition-all duration-300 ease-in-out "
+    >
+      <div class="items-center justify-between flex">
+        <p><b> Atomatis Hidup Pompa 01?</b>
+          <div>
+            <input type="checkbox" name="" id="" class="w-4 h-4 ">
+          </div>
+      </div>
+      <button
+        class="self-start hover:text-blue-600 hover:font-semibold"
+        id="selengkapnya"
+      >
+        Selengkapnya..
+      </button>
+      <div id="selengkapnyapompa" class="hidden mt-2">
+        <p class="text-justify">
+          Pompa akan otomatis hidup jika tanah berstatus kering, status kelembapan tanah kali ini yakni 
+        </p>
+      </div>
     </div>
+    
+    
 
     <script
       src="https://kit.fontawesome.com/27ec8e2fe3.js"

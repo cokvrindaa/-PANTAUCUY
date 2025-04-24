@@ -10,14 +10,14 @@ import {
 
 // Konfigurasi Firebase
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
-  measurementId: "",
+  apiKey: "AIzaSyA6mnO53Cl1rOGQJIIh-sUUxqM8ScDHPYo",
+  authDomain: "myfirebase-ed97c.firebaseapp.com",
+  databaseURL: "https://myfirebase-ed97c-default-rtdb.firebaseio.com",
+  projectId: "myfirebase-ed97c",
+  storageBucket: "myfirebase-ed97c.firebasestorage.app",
+  messagingSenderId: "747578865161",
+  appId: "1:747578865161:web:10321b582cd0c4ffc8ead8",
+  measurementId: "G-8H0TSWB0X0",
 };
 
 // Inisialisasi Firebase
@@ -31,6 +31,8 @@ const cahayaRef = ref(db, "cahaya");
 const apiRef = ref(db, "api");
 const slidersatuRef = ref(db, "slidersatu");
 const sliderduaRef = ref(db, "sliderdua");
+const pompasatuRef = ref(db, "pompasatu");
+const pompaduaRef = ref(db, "pompadua");
 // Ambil elemen yang sesuai dengan HTML
 const button1 = document.getElementById("toggleBtn");
 const led1gam = document.getElementById("ledgamsatu");
@@ -41,6 +43,10 @@ const kelembapan = document.getElementById("kelembapan");
 const cahaya = document.getElementById("cahaya");
 const api = document.getElementById("api");
 const statuscahaya = document.getElementById("statuscahaya");
+const buttonpompa1 = document.getElementById("togglePomp1");
+const buttonpompa2 = document.getElementById("togglePomp2");
+const gampompa1 = document.getElementById("pompgam1");
+const gampompa2 = document.getElementById("pompgam2");
 
 let slidersatu = document.getElementById("slidersatu");
 let tampilslider = document.getElementById("tampilslider");
@@ -222,4 +228,130 @@ onValue(sliderduaRef, (snapshot) => {
   sliderdua.value = value;
   tampilsliderdua.innerHTML = value + " R";
   console.log("Slider diperbarui secara real-time:", value);
+});
+
+get(pompasatuRef)
+  .then((snapshot) => {
+    let state = snapshot.exists() ? snapshot.val() : 1;
+
+    buttonpompa1.textContent = `Hidupkan`;
+
+    // Update tampilan awal berdasarkan state dari Firebase
+    if (state === 1) {
+      buttonpompa1.style.backgroundColor = "red";
+      gampompa1.src = "./image/water-pump-on.png";
+
+      buttonpompa1.textContent = `Matikan`;
+    } else {
+      buttonpompa1.style.backgroundColor = "";
+      gampompa1.src = "./image/water-pump-off.png";
+      buttonpompa1.textContent = `Hidupkan`;
+    }
+
+    // Event Klik untuk mengubah angka
+    buttonpompa1.addEventListener("click", () => {
+      if (state === 1) {
+        state = 0;
+        buttonpompa1.style.backgroundColor = "";
+        gampompa1.src = "./image/water-pump-off.png";
+        buttonpompa1.textContent = `Hidupkan`;
+      } else {
+        state = 1;
+        buttonpompa1.style.backgroundColor = "red";
+        gampompa1.src = "./image/water-pump-on.png";
+        buttonpompa1.textContent = `Matikan`;
+      }
+
+      // Simpan ke Firebase
+      set(pompasatuRef, state)
+        .then(() => {
+          console.log("Data berhasil diperbarui:", state);
+        })
+        .catch((error) => console.error("Gagal mengupdate data:", error));
+    });
+  })
+  .catch((error) => {
+    console.error("Error mengambil data dari Firebase:", error);
+    button.textContent = "Error!";
+  });
+
+// POMPA 2
+get(pompaduaRef)
+  .then((snapshot) => {
+    let state = snapshot.exists() ? snapshot.val() : 1;
+
+    buttonpompa2.textContent = `Hidupkan`;
+
+    // Update tampilan awal berdasarkan state dari Firebase
+    if (state === 1) {
+      buttonpompa2.style.backgroundColor = "red";
+      gampompa2.src = "./image/water-pump-on.png";
+
+      buttonpompa2.textContent = `Matikan`;
+    } else {
+      buttonpompa2.style.backgroundColor = "";
+      gampompa2.src = "./image/water-pump-off.png";
+      buttonpompa2.textContent = `Hidupkan`;
+    }
+
+    // Event Klik untuk mengubah angka
+    buttonpompa2.addEventListener("click", () => {
+      if (state === 1) {
+        state = 0;
+        buttonpompa2.style.backgroundColor = "";
+        gampompa2.src = "./image/water-pump-off.png";
+        buttonpompa2.textContent = `Hidupkan`;
+      } else {
+        state = 1;
+        buttonpompa2.style.backgroundColor = "red";
+        gampompa2.src = "./image/water-pump-on.png";
+        buttonpompa2.textContent = `Matikan`;
+      }
+
+      // Simpan ke Firebase
+      set(pompaduaRef, state)
+        .then(() => {
+          console.log("Data berhasil diperbarui:", state);
+        })
+        .catch((error) => console.error("Gagal mengupdate data:", error));
+    });
+  })
+  .catch((error) => {
+    console.error("Error mengambil data dari Firebase:", error);
+    button.textContent = "Error!";
+  });
+
+const indukpompa = document.getElementById("indukpompa");
+const selengkapnyapompa = document.getElementById("selengkapnyapompa");
+const selengkapnya = document.getElementById("selengkapnya");
+
+selengkapnya.addEventListener("click", function () {
+  if (selengkapnyapompa.classList.contains("hidden")) {
+    selengkapnyapompa.classList.remove("hidden");
+    indukpompa.classList.remove("h-20");
+    indukpompa.classList.add("h-40");
+    selengkapnya.textContent = "Sembunyikan";
+  } else {
+    selengkapnyapompa.classList.add("hidden");
+    indukpompa.classList.remove("h-40");
+    indukpompa.classList.add("h-20");
+    selengkapnya.textContent = "Selengkapnya..";
+  }
+});
+const indukled = document.getElementById("indukled");
+const selengkapnyaled = document.getElementById("selengkapnyaled");
+const selengkapnyaledbtn = document.getElementById("selengkapnyaledbtn");
+
+selengkapnyaledbtn.addEventListener("click", function () {
+  if (selengkapnyaled.classList.contains("hidden")) {
+    selengkapnyaled.classList.remove("hidden");
+    indukled.classList.remove("h-20");
+    indukled.classList.add("h-40");
+    selengkapnyaledbtn.textContent = "Sembunyikan";
+  } else {
+    selengkapnyaled.classList.add("hidden");
+    indukled.classList.remove("h-40");
+    indukled.classList.add("h-20");
+    selengkapnyaledbtn.textContent = "Selengkapnya..";
+  }
 });
