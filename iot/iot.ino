@@ -86,37 +86,52 @@ void loop() {
       Serial.println(bacaldr);
     }
 
-
-
-    if (Firebase.RTDB.getInt(&fbdo, "toggleState")) {
-      int b = fbdo.intData();
-      Serial.println(b);
-      if (b == 1) {
-        if (Firebase.RTDB.getInt(&fbdo, "sliderdua")) {
+    
+    if (Firebase.RTDB.getInt(&fbdo, "autohidupled1")) {
+      int datalampu = fbdo.intData();
+      Serial.print("data lampu: ");
+      Serial.println(datalampu);
+      if (datalampu == 0) {
+        if (Firebase.RTDB.getInt(&fbdo, "toggleState")) {
           int b = fbdo.intData();
           Serial.println(b);
-          analogWrite(lampu2, b);
+          if (b == 1) {
+            if (Firebase.RTDB.getInt(&fbdo, "sliderdua")) {
+              int b = fbdo.intData();
+              Serial.println(b);
+              analogWrite(lampu2, b);
+            }
+
+          } else if (b == 0) {
+            digitalWrite(lampu2, LOW);
+          }
         }
 
-      } else if (b == 0) {
-        digitalWrite(lampu2, LOW);
+        if (Firebase.RTDB.getInt(&fbdo, "toggleState2")) {
+          int c = fbdo.intData();
+          Serial.println(c);
+          if (c == 1) {
+            if (Firebase.RTDB.getInt(&fbdo, "slidersatu")) {
+              int a = fbdo.intData();
+              Serial.println(a);
+              analogWrite(lampu, a);
+            }
+
+          } else if (c == 0) {
+            digitalWrite(lampu, LOW);
+          }
+        }
+      } else if (datalampu == 1) {
+        if (bacaldr < 10) {
+          digitalWrite(lampu, HIGH);
+          digitalWrite(lampu2, HIGH);
+        } else {
+          digitalWrite(lampu, LOW);
+          digitalWrite(lampu2, LOW);
+        }
       }
     }
 
-    if (Firebase.RTDB.getInt(&fbdo, "toggleState2")) {
-      int c = fbdo.intData();
-      Serial.println(c);
-      if (c == 1) {
-        if (Firebase.RTDB.getInt(&fbdo, "slidersatu")) {
-          int a = fbdo.intData();
-          Serial.println(a);
-          analogWrite(lampu, a);
-        }
-
-      } else if (c == 0) {
-        digitalWrite(lampu, LOW);
-      }
-    }
 
 
     if (Firebase.RTDB.getInt(&fbdo, "pompasatu")) {

@@ -33,6 +33,7 @@ const slidersatuRef = ref(db, "slidersatu");
 const sliderduaRef = ref(db, "sliderdua");
 const pompasatuRef = ref(db, "pompasatu");
 const pompaduaRef = ref(db, "pompadua");
+const autohidupLed1 = ref(db, "autohidupled1");
 // Ambil elemen yang sesuai dengan HTML
 const button1 = document.getElementById("toggleBtn");
 const led1gam = document.getElementById("ledgamsatu");
@@ -159,7 +160,10 @@ onValue(kelembapanRef, (snapshot) => {
 });
 onValue(cahayaRef, (snapshot) => {
   let value = snapshot.val();
-  if (value <= 40) {
+  if (value <10) {
+    statuscahaya.innerText = "Gelap ++";
+  }
+  if ( value > 10 && value <= 40 ) {
     statuscahaya.innerText = "Gelap";
   }
   if (value >= 40 && value <= 180) {
@@ -170,6 +174,7 @@ onValue(cahayaRef, (snapshot) => {
   }
   console.log(`cahaya: ${value}`);
   cahaya.innerText = `${value} R`;
+
 });
 onValue(apiRef, (snapshot) => {
   let value = snapshot.val();
@@ -355,3 +360,41 @@ selengkapnyaledbtn.addEventListener("click", function () {
     selengkapnyaledbtn.textContent = "Selengkapnya..";
   }
 });
+
+// AUTOMATISASI TUGAS
+const aotomatisled1cek = document.getElementById("otomatisled1");
+
+get(autohidupLed1)
+  .then((snapshot) => {
+    let state = 1;
+    if (snapshot.exists()) {
+      state = snapshot.val();
+    }
+
+    // Update tampilan awal berdasarkan state dari Firebase
+    if (state === 1) {
+      aotomatisled1cek.checked = true;
+    } else {
+      aotomatisled1cek.checked = false;
+    }
+
+    // Event Klik untuk mengubah angka
+    aotomatisled1cek.addEventListener("change", () => {
+      if (aotomatisled1cek.checked) {
+        state = 1;
+      } else {
+        state = 0;
+      }
+
+      // Simpan ke Firebase
+      set(autohidupLed1, state)
+        .then(() => {
+          console.log("Data berhasil diperbarui:", state);
+        })
+        .catch((error) => console.error("Gagal mengupdate data:", error));
+    });
+  })
+  .catch((error) => {
+    console.error("Error mengambil data dari Firebase:", error);
+    button.textContent = "Error!";
+  });
